@@ -1,0 +1,17 @@
+# C build artifacts
+*.o
+c_engine/nnfit
+*.a
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Databases
+data/*.db
+
+# OS / editor noise
+.DS_Store
+*~
+*.swap
+*.kate-swp

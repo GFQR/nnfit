@@ -1,0 +1,93 @@
+DOCUMENTATION
+
+CODE: 1-3-1NN
+
+LANGUAGES: C / SQL / Python
+
+
+*****************************************************
+Abstract
+
+A 1-3-1 neural network to fit functions of one variable f(x). The value of x is provided as input to the layer 1 neuron (left of 1-3-1). C implements the forward and backward propagation and the Stochastic Gradient Descent algorithm. SQL is used to store and manipulate the training set. Python is used for the control of the C module and visualization.
+
+
+*****************************************************
+C Module
+
+1-3-1_NN_main_v02.c: main function that includes the initialization, main algorithm (SGD loop) and printing of results.
+
+1-3-1_NN_functions_v02: Implementation of forward pass, backpropagation, SQL utilities, and support functions.
+
+1-3-1_NN_v02.h: header file with headers, structures, global variables, and prototypes.
+
+1-3-1_NN_v02.ini: initialization file with parameters to be adjusted by directly by a C+SQL user or by python module.
+
+1-3-1_NN_v02.db: the sql database for the training set.
+
+Makefile: to compile and link.
+
+libsqlite3.a: The static library containing the SQLite C API.
+
+
+*****************************************************
+SQL
+
+Used to store and manipulate the training set.
+
+schema:
+TABLE xfx (
+    id INTEGER PRIMARY KEY,
+    x NUMERIC,
+    fx NUMERIC
+)
+
+*****************************************************
+INI file and its use
+
+DATA      // COMMENT
+---------------------------------------------------------------------------------
+Y         // generate new TS? Y/N [bool ini_d.flag_genTS]
+1000      // TS size [int ini_d.ts_size]
+3         // mini-batch size [int ini_d.mb_size] < TS size
+1         // choose fx: (1) quad, (2) linear (3) cosine [char ini_d.fx_choice]
+-0.8      // a [float ini_d.fx_a]
+-0.5      // b [float ini_d.fx_b]
+0.5       // c [float ini_d.fx_c]
+0.95      // learning rate [double ini_d.eta]
+100       // epoch number [int ini_d.epoch_number]
+0.00001   // delta, threshold value of C to stop grad-desc [double ini_d.delta]
+
+Title line: tells the exact/fixed formatting to followed. The .ini format is fixed-width and must not be manually modified.
+Line 0: set or updated the training set. 'N' signals the C code to use an already generated db. A new db should be generated if the following lines (L) are modified: L1, L3-L6. Changing parameters without regenerating the DB can lead to mismatch between f(x) and stored values.
+Line 1: note that there is no test set, because the exact f(x) can be compared to the NN result.
+Line 2: mini-batch size.
+Line 3: choose f(x). quad: f(x)=a*(x-b)^2+c. linear: a*x+b. cosine: a*cos(b*x) + c.
+Line 4-6: set f(x) parameters.
+Line 7: learning rate.
+Line 8: number of epochs.
+Line 9: when the loss function C is below this delta value, the SGD algorithm stops.
+
+NOTE: Integers are always positive. Real numbers must be entered in floating point notation.
+
+*****************************************************
+Initial weights and biases
+
+Weights and biases are not placed in the INI file to avoid user error and because they are typically initialized programmatically. They can be modified, to improve convergence directly in the code, function 'model_param init_wb(void)'
+
+
+*****************************************************
+Running directly the C-SQL module
+
+1 . Adjust initial weights and hidden-layer biases if convergence is poor. Ensure some biases are negative to prevent all ReLU neurons from saturating.
+2 . modify if needed .ini file
+3 . run Makefile
+4 . run ./1-3-1_NN_v02 (can redirect: > 1-3-1_NN_res_01.txt)
+5 . study convergence with loss function 'C', if not good -> return to 1
+
+*****************************************************
+Python module (Orchestrator)
+
+A Python module can also run the C executable, parse results, and visualize the fitted function and convergence curve.
+
+
+
