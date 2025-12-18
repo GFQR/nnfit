@@ -2,11 +2,22 @@
 
 ## Overview
 
-**NNFit** is a compact, end-to-end machine learning project designed to demonstrate a deep, mechanistic understanding of neural networks and experimental workflows.
+**NNFit** is a compact machine learning project designed to demonstrate a deep, mechanistic understanding of neural networks and experimental workflows.
 
 The core training loop is implemented **from scratch in C**, including forward propagation, backpropagation, and stochastic gradient descent. A **Python orchestration layer** manages experiment configuration, execution, data persistence, and visualization. All experiment metadata and results are stored in a **SQLite database**, enabling reproducibility and systematic comparison across runs.
 
 This project intentionally avoids high-level ML frameworks in order to expose and control every step of the learning process.
+
+## Purpose
+
+NNFit is a from-scratch neural network framework designed to approximate real-valued functions of a single variable.
+
+The project focuses on:
+- explicit implementation of forward and backward propagation,
+- controlled experimentation with initialization and hyperparameters,
+- systematic comparison of training runs stored in a relational database.
+
+The goal is not raw performance, but **mechanistic understanding, reproducibility, and experimental rigor**.
 
 
 ## Project Architecture
@@ -48,19 +59,22 @@ Each example contains:
     - Loss as a function of epoch
 - Captured standard output from the python
 
-For each case, multiple runs with different initial conditions are performed, and the experiment with the lowest final loss is automatically selected and visualized.
+For each case, multiple runs with different initial conditions are performed.
+The experiment with the lowest final loss is automatically selected and visualized.
 
 ## Why This Project
 
 This project is intended to demonstrate:
 
-- Understanding of __neural networks beyond library usage__
+- Understanding of neural networks __beyond library usage__
 - Comfort working across __C, Python, and SQL__
 - Experimental rigor (initial conditions, convergence, failure modes)
 - Clean separation between computation, orchestration, and analysis
 - Reproducibility and traceability of ML experiments
 
 ## How to Run
+
+First, define the target function and global parameters in `data/config_1st.ini`. Then run the Python orchestrator:
 
 ```
 cd python
@@ -69,12 +83,16 @@ python3 main.py
 
 The Python orchestrator will:
 
-- Initialize run
-- Configure experiments
-- Run the C engine on each experiment
-- Store results in SQLite db
-- Analyze and generate plots
+- Initialize the suite,
+- configure multiple runs,
+- execute the C engine on each experiment,
+- store all results in the SQLite database,
+- Analyze outcomes and generate plots.
+
+Optimal weights and biases, along with full experiment metadata, are stored in `nnfit.db`.
 
 ## Notes
 
-Documentation specific to each module can be found inside the corresponding folder.
+- The C engine can be executed independently. Its output (loss trajectory and optimal parameters) is emitted as JSON at the end of execution.
+
+- Module-specific documentation is available within each subdirectory.
