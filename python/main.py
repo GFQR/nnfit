@@ -34,7 +34,6 @@ def main():
     print("initializing...\n")
     db.create_tables()
     ini_data = config.read(config.FILE_CONFIG_1ST) 
-    #
     # copies FILE_CONFIG_1ST to FILE_CONFIG 
     config.update(ini_data, config.FILE_CONFIG)
     # compiles c_engine
