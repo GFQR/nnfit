@@ -34,11 +34,15 @@ def main():
     print("initializing...\n")
     db.create_tables()
     ini_data = config.read(config.FILE_CONFIG_1ST) 
+    #
+    # copies FILE_CONFIG_1ST to FILE_CONFIG 
+    config.update(ini_data, config.FILE_CONFIG)
     # compiles c_engine
     runner.compile_c(config.C_ENGINE_DIR)
     # first run: to initialize xfx table
     runner.run_c(config.FILE_C_ENGINE)
-    # updates only new_TS = 'N' in ini_data
+    # updates parameter new_TS = 'N' in ini_data
+    # and loads it into working file FILE_CONFIG
     ini_data['new_ts'] = 'N'
     config.update(ini_data, config.FILE_CONFIG)
 

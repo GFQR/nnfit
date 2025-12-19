@@ -9,7 +9,7 @@ import os
 #global
 INI_LINES = 20 # number of data lines in file
 INI_DATA_LENGTH = 10 # length of data in each line
-NUM_OF_EXP = 40
+NUM_OF_EXP = 30 # > 0
 W_EXTREME = 1.0
 bl1_EXTREME = 1.0
 X_EXTREME = 1 # in c_engine, the x-interval
