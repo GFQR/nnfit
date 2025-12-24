@@ -96,3 +96,7 @@ Optimal weights and biases, along with full experiment metadata, are stored in `
 - The C engine can be executed independently. Its output (loss trajectory and optimal parameters) is emitted as JSON at the end of execution.
 
 - Module-specific documentation is available within each subdirectory.
+
+## License
+
+This project is released under the MIT License.
