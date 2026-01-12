@@ -91,6 +91,10 @@ The Python orchestrator will:
 
 Optimal weights and biases, along with full experiment metadata, are stored in `nnfit.db`.
 
+## Demo Video
+
+A short technical demo of the project is available.
+
 ## Notes
 
 - The C engine can be executed independently. Its output (loss trajectory and optimal parameters) is emitted as JSON at the end of execution.
